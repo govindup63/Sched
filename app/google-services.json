@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "168636401455",
+    "project_id": "my-application3-686bd",
+    "storage_bucket": "my-application3-686bd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:168636401455:android:4c0a3ae110e9de3a4f83da",
+        "android_client_info": {
+          "package_name": "com.govind.myapplication3"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAknCv7iJ7QUJogqF5MMPvYW6hKczjWlxU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
