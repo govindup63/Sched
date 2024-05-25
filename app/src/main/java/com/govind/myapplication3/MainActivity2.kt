@@ -41,12 +41,11 @@ class MainActivity2 : AppCompatActivity() {
                     val schedule = snapshot.getValue(Sched::class.java)
                     if (schedule != null) {
                         // You can now use the schedule object
-                        count++
                         val timeM = schedule.timeM
-                        Log.d("data $count", "TimeM: $timeM")
-                        count++
                         val timeN = schedule.timeN
-                        Log.d("data $count", "TimeN: $timeN")
+                        val vehicleNo = schedule.vnO
+
+                        //adding data to list
                         schedList.add(schedule)
                     }
                 }

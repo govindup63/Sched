@@ -24,9 +24,11 @@ class MyAdapter(private val userlist : ArrayList<Sched>) : RecyclerView.Adapter<
         val currentitem = userlist[position]
         holder.timeM.text = currentitem.timeM.toString()
         holder.timeN.text = currentitem.timeN.toString()
+        holder.vehicleNo.text = currentitem.vnO.toString()
     }
     class MyViewHolder (itemView: View): RecyclerView.ViewHolder(itemView){
         val timeM : TextView = itemView.findViewById(R.id.tvMtime)
         val timeN : TextView = itemView.findViewById(R.id.tvNtime)
+        val vehicleNo: TextView = itemView.findViewById(R.id.Vno)
     }
 }
