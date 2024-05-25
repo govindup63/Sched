@@ -2,6 +2,7 @@ package com.govind.myapplication3
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Adapter
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -16,6 +17,8 @@ import com.google.firebase.database.ValueEventListener
 
 class MainActivity2 : AppCompatActivity() {
 
+    private lateinit var adapter: MyAdapter
+    private val schedList = arrayListOf<Sched>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -25,6 +28,12 @@ class MainActivity2 : AppCompatActivity() {
         val database = FirebaseDatabase.getInstance()
         val schedRef = database.getReference("Sched")
         var count = 0
+
+        val recyclerView = findViewById<RecyclerView>(R.id.schedList)
+        adapter = MyAdapter(schedList)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+
 
         schedRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -38,8 +47,10 @@ class MainActivity2 : AppCompatActivity() {
                         count++
                         val timeN = schedule.timeN
                         Log.d("data $count", "TimeN: $timeN")
+                        schedList.add(schedule)
                     }
                 }
+                adapter.notifyDataSetChanged()
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -47,5 +58,10 @@ class MainActivity2 : AppCompatActivity() {
                 println("Database error: ${databaseError.message}")
             }
         })
+
+
+
+
+
     }
 }

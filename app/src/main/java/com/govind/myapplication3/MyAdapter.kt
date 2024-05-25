@@ -22,9 +22,11 @@ class MyAdapter(private val userlist : ArrayList<Sched>) : RecyclerView.Adapter<
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentitem = userlist[position]
-        holder.time.text = currentitem.timeM.toString()
+        holder.timeM.text = currentitem.timeM.toString()
+        holder.timeN.text = currentitem.timeN.toString()
     }
     class MyViewHolder (itemView: View): RecyclerView.ViewHolder(itemView){
-        val time : TextView = itemView.findViewById(R.id.tvfirstName)
+        val timeM : TextView = itemView.findViewById(R.id.tvMtime)
+        val timeN : TextView = itemView.findViewById(R.id.tvNtime)
     }
 }

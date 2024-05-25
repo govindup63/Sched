@@ -23,13 +23,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="First Name: "
+                android:text="TIME M: "
                 android:textColor="@color/black"
                 android:textSize="26sp"
                 android:textStyle="bold"/>
 
             <TextView
-                android:id="@+id/tvfirstName"
+                android:id="@+id/tvMtime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -48,13 +48,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Last Name: "
+                android:text="TIME E"
                 android:textColor="@color/black"
                 android:textSize="26sp"
                 android:textStyle="bold"/>
 
             <TextView
-                android:id="@+id/tvlastName"
+                android:id="@+id/tvNtime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -69,24 +69,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Age: "
-                android:textColor="@color/black"
-                android:textSize="26sp"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:id="@+id/tvage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="20"
-                android:textColor="@color/black"
-                android:textSize="20sp"/>
-
         </LinearLayout>
 
 

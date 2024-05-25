@@ -8,7 +8,7 @@
     tools:context=".MainActivity2">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/userList"
+        android:id="@+id/schedList"
         android:layout_width="409dp"
         android:layout_height="729dp"
         app:layout_constraintBottom_toBottomOf="parent"
