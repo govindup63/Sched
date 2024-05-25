@@ -22,7 +22,7 @@ class MyAdapter(private val userlist : ArrayList<Sched>) : RecyclerView.Adapter<
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentitem = userlist[position]
-        holder.time.text = currentitem.time
+        holder.time.text = currentitem.timeM.toString()
     }
     class MyViewHolder (itemView: View): RecyclerView.ViewHolder(itemView){
         val time : TextView = itemView.findViewById(R.id.tvfirstName)

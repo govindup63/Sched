@@ -1,3 +1,6 @@
 package com.govind.myapplication3
 
-data class Sched(var time : String ?= null)
+data class Sched(
+    val timeM: Int = 0,
+    val timeN: Int = 0
+)

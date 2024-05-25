@@ -16,49 +16,36 @@ import com.google.firebase.database.ValueEventListener
 
 class MainActivity2 : AppCompatActivity() {
 
-    private lateinit var dbref : DatabaseReference
-    private lateinit var userRecyclerView: RecyclerView
-    private lateinit var schedArryaList: ArrayList<Sched>
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main2)
 
-        userRecyclerView = findViewById(R.id.userList)
-        userRecyclerView.layoutManager = LinearLayoutManager(this)
-        userRecyclerView.setHasFixedSize(true)
-        schedArryaList= arrayListOf<Sched>()
-        getSchedData()
+        // Reference to Firebase database
+        val database = FirebaseDatabase.getInstance()
+        val schedRef = database.getReference("Sched")
+        var count = 0
 
-
-
-
-    }
-
-    private fun getSchedData() {
-        dbref = FirebaseDatabase.getInstance().reference
-
-        dbref.addValueEventListener(object : ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if(snapshot.exists()){
-                    for(userSnapshot in snapshot.children){
-
-                        val Sched = userSnapshot.getValue(Sched::class.java)
-                        schedArryaList.add(Sched!!)
-                        Log.d("vinit", "onDataChange: ${schedArryaList}")
-
+        schedRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (snapshot in dataSnapshot.children) {
+                    val schedule = snapshot.getValue(Sched::class.java)
+                    if (schedule != null) {
+                        // You can now use the schedule object
+                        count++
+                        val timeM = schedule.timeM
+                        Log.d("data $count", "TimeM: $timeM")
+                        count++
+                        val timeN = schedule.timeN
+                        Log.d("data $count", "TimeN: $timeN")
                     }
-                    userRecyclerView.adapter= MyAdapter(schedArryaList)
                 }
             }
 
-            override fun onCancelled(error: DatabaseError) {
-
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Handle possible errors.
+                println("Database error: ${databaseError.message}")
             }
-
         })
-
     }
 }
