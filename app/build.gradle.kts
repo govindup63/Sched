@@ -44,6 +44,16 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.firebase.database)
+    implementation(platform("com.google.firebase:firebase-bom:33.1.1"))
+    implementation("com.google.firebase:firebase-analytics")
+    dependencies {
+        // Other dependencies
+        implementation("androidx.work:work-runtime-ktx:2.7.0")
+    }
+
+
+    implementation(libs.firebase.messaging)
+    implementation(libs.androidbrowserhelper)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

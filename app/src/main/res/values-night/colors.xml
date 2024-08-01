@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#000000</color>
+    <color name="textPrimary">#FFFFFF</color> <!-- White for dark mode -->
+    <color name="textSecondary">#BDBDBD</color> <!-- Lighter gray for secondary text in dark mode -->
+    <color name="textAccent">#000000</color> <!-- Black for accents in dark mode -->
+</resources>

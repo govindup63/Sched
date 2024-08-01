@@ -2,65 +2,75 @@ package com.govind.myapplication3
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.Adapter
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 
 class MainActivity2 : AppCompatActivity() {
 
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var databaseReference: DatabaseReference
     private lateinit var adapter: MyAdapter
-    private val schedList = arrayListOf<Sched>()
+    private lateinit var dataList: MutableList<Sched>
+    private lateinit var notificationHelper: NotificationHelper
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_main2)
 
-        // Reference to Firebase database
-        val database = FirebaseDatabase.getInstance()
-        val schedRef = database.getReference("Sched")
-        var count = 0
-
-        val recyclerView = findViewById<RecyclerView>(R.id.schedList)
-        adapter = MyAdapter(schedList)
+        recyclerView = findViewById(R.id.schedList)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        dataList = mutableListOf()
+        adapter = MyAdapter(dataList)
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
+        notificationHelper = NotificationHelper(this) // Ensure 'this' is the correct context
 
-        schedRef.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                for (snapshot in dataSnapshot.children) {
-                    val schedule = snapshot.getValue(Sched::class.java)
-                    if (schedule != null) {
-                        // You can now use the schedule object
-                        val timeM = schedule.timeM
-                        val timeN = schedule.timeN
-                        val vehicleNo = schedule.vnO
-
-                        //adding data to list
-                        schedList.add(schedule)
+        databaseReference = FirebaseDatabase.getInstance().getReference("Sched")
+        databaseReference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                dataList.clear()
+                for (dataSnapshot in snapshot.children) {
+                    val sched = dataSnapshot.getValue(Sched::class.java)
+                    sched?.let {
+                        dataList.add(it)
+                        scheduleNotification(it)
                     }
                 }
                 adapter.notifyDataSetChanged()
+                Log.d("MainActivity2", "Data loaded: ${dataList.size} items")
             }
 
-            override fun onCancelled(databaseError: DatabaseError) {
-                // Handle possible errors.
-                println("Database error: ${databaseError.message}")
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("MainActivity2", "Failed to read value.", error.toException())
             }
         })
+    }
 
+    private fun scheduleNotification(sched: Sched) {
+        // Ensure sched.timeE is valid and not null
+        if (sched.timeE > 0 && !sched.vnO.isNullOrEmpty()) {
+            // Convert military time to AM/PM format
+            val notificationTimeFormatted = convertMilitaryTimeToAMPM(sched.timeE)
 
+            // Construct the notification message
+            val title = "Reminder"
+            val message = "Your garbage collector will arrive at ${notificationTimeFormatted}"
 
+            // Schedule the notification
+            notificationHelper.sendNotification(title, message)
+        } else {
+            Log.e("MainActivity2", "Invalid schedule data: $sched")
+        }
+    }
 
-
+    // Function to convert military time to AM/PM format
+    private fun convertMilitaryTimeToAMPM(militaryTime: Long): String {
+        val hours = (militaryTime / 100).toInt()
+        val minutes = (militaryTime % 100).toInt()
+        val period = if (hours >= 12) "PM" else "AM"
+        val hours12 = if (hours == 0 || hours == 12) 12 else hours % 12
+        return String.format("%02d:%02d %s", hours12, minutes, period)
     }
 }
